@@ -110,8 +110,7 @@ export default function DataTable({ userData, handleDelete, filteredData, setFil
             ))}
           </tbody>
         </table >
-      )
-      }
+      )}
 
       <div>
         <button onClick={() => table.setPageIndex(0)} className="h-10 px-5 text-indigo-600 transition-colors duration-150 focus:shadow-outline hover:bg-indigo-100">First Page</button>

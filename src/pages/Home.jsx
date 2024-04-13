@@ -16,7 +16,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(fetchUsersAsync());
-  }, []);
+  }, [dispatch]);
 
   const handleAdd = () => {
     navigate("/create");
@@ -43,8 +43,6 @@ export default function Home() {
     return <h2>Loading</h2>;
   }
 
-  // console.log(users.length);
-
   return (
     <Layout title="List of all users" desc="Enumerate a comprehensive compilation of all users.">
       <div className="flex justify-between items-center">
@@ -65,7 +63,7 @@ export default function Home() {
       </div>
       {loading ? <h2>Loading</h2> : (
         <>
-          {users && (
+          {users && users.length > 0 && (
             <DataTable
               userData={users}
               handleAdd={handleAdd}
