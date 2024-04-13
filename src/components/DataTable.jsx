@@ -12,7 +12,7 @@ import {
 DataTable.propTypes = {
   userData: PropTypes.array.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  filteredData: PropTypes.func.isRequired,
+  filteredData: PropTypes.string.isRequired,
   setFiltering: PropTypes.func.isRequired,
 };
 
@@ -77,36 +77,42 @@ export default function DataTable({ userData, handleDelete, filteredData, setFil
 
   return (
     <>
-      <table className="min-w-full text-center text-sm font-light">
-        <thead className="border-b font-medium dark:border-neutral-500">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  <div>
-                    {flexRender(header.column.columnDef.header,
-                      header.getContext()
+      {table.getFilteredRowModel().rows.length === 0 ? (
+        <div className="text-center text-gray-500">No results found.</div>
+      ) : (
+        <table className="min-w-full text-center text-sm font-light">
+          <thead className="border-b font-medium dark:border-neutral-500">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th key={header.id}>
+                    <div>
+                      {flexRender(header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead >
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id} className="border-b dark:border-neutral-500">
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id} className="whitespace-nowrap px-6 py-4 font-medium">
+                    {flexRender(cell.column.columnDef.cell,
+                      cell.getContext()
                     )}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="border-b dark:border-neutral-500">
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="whitespace-nowrap px-6 py-4 font-medium">
-                  {flexRender(cell.column.columnDef.cell,
-                    cell.getContext()
-                  )}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table >
+      )
+      }
+
       <div>
         <button onClick={() => table.setPageIndex(0)} className="h-10 px-5 text-indigo-600 transition-colors duration-150 focus:shadow-outline hover:bg-indigo-100">First Page</button>
         <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className={`h-10 px-5 text-indigo-600 transition-colors duration-150 focus:shadow-outline ${table.getCanPreviousPage() ? 'hover:bg-indigo-100' : 'text-gray-400 cursor-not-allowed bg-gray-200'}`}>
