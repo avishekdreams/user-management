@@ -25,7 +25,6 @@ export default function Update() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
     dispatch(updateUserAsync(formData));
     navigate("/");
   }
